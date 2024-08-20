@@ -7,6 +7,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ContactDto } from './contact.dto';
+import { PassportDto } from './passport.dto';
 
 interface ICreateUserDto {
   name: string;
@@ -24,4 +25,7 @@ export class CreateUserDto implements ICreateUserDto {
   @ValidateNested({ each: true })
   @Type(() => ContactDto)
   contacts: ContactDto[];
+  @ValidateNested()
+  @Type(() => PassportDto)
+  passport: PassportDto;
 }

@@ -1,15 +1,15 @@
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 interface IContactDto {
-  code: string;
-  issuedDate: string;
+  name: string;
+  number: string;
 }
 
 export class ContactDto implements IContactDto {
   @IsString()
   @IsNotEmpty()
-  code: string;
-  @IsDateString()
+  name: string;
+  @IsString()
   @IsNotEmpty()
-  issuedDate: string;
+  number: string;
 }

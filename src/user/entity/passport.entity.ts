@@ -12,6 +12,6 @@ export class Passport {
   @Column({ type: 'date' })
   issuedDate: string;
 
-  @OneToOne(() => User, (user) => user.id, { cascade: true })
+  @OneToOne(() => User, (user) => user.passport)
   user: User;
 }

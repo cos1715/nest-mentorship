@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Contact } from './contacts.entity';
 import { Passport } from './passport.entity';
@@ -21,9 +22,11 @@ export class User {
   @Column({ default: '' })
   email: string;
 
+  // why userId was added?
   @OneToMany(() => Contact, (contact) => contact.user, { cascade: true })
   contacts: Contact[];
 
   @OneToOne(() => Passport, (passport) => passport.user, { cascade: true })
+  @JoinColumn()
   passport: Passport;
 }

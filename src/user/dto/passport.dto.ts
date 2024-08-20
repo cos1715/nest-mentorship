@@ -1,15 +1,15 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
 
 interface IPassportDto {
-  name: string;
-  number: string;
+  code: string;
+  issuedDate: string;
 }
 
 export class PassportDto implements IPassportDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
-  @IsString()
+  code: string;
+  @IsDateString()
   @IsNotEmpty()
-  number: string;
+  issuedDate: string;
 }

@@ -17,24 +17,27 @@ export class UserService {
   ) {}
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find({ relations: ['contacts'] });
+    return this.usersRepository.find({ relations: ['contacts', 'passport'] });
   }
 
   async findOne(id: string): Promise<User> {
     return this.usersRepository.findOne({
       where: { id },
-      relations: ['contacts'],
+      relations: ['contacts', 'passport'],
     });
   }
 
-  create(user: CreateUserDto): Promise<User> {
+  create(createUserDto: CreateUserDto): Promise<User> {
+    const user = plainToInstance(User, createUserDto);
     return this.usersRepository.save(user);
   }
 
-  createBulk(users: CreateUserDto[]): Promise<User[]> {
+  createBulk(data: CreateUserDto[]): Promise<User[]> {
+    const users = data.map((user) => plainToInstance(User, user));
     return this.usersRepository.save(users);
   }
 
+  // ask to check this function
   async update(id: string, user: User): Promise<User> {
     const { contacts, ...userData } = user;
 
@@ -52,7 +55,10 @@ export class UserService {
     return this.findOne(id);
   }
 
+  // ask to check this function
   async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+    const user = await this.findOne(id);
+    // await this.contactsRepository.delete({ user: { id } });
+    await this.usersRepository.remove(user);
   }
 }
