@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
       database: 'nest-mentorship',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      toRetry: () => false,
     }),
     UserModule,
   ],

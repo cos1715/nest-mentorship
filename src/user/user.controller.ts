@@ -12,9 +12,9 @@ import {
   ParseArrayPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from './user.entity';
+import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from './http-exception.filter';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto } from './dto/user.dto';
 import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
 
 @Controller('users')

@@ -2,22 +2,29 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 // import { v4 as uuidv4 } from 'uuid';
-import { User } from './user.entity';
-import { CreateUserDto } from './user.dto';
+import { User } from './entity/user.entity';
+import { CreateUserDto } from './dto/user.dto';
+import { Contact } from './entity/contacts.entity';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Contact)
+    private contactsRepository: Repository<Contact>,
   ) {}
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({ relations: ['contacts'] });
   }
 
-  findOne(id: string): Promise<User> {
-    return this.usersRepository.findOneBy({ id });
+  async findOne(id: string): Promise<User> {
+    return this.usersRepository.findOne({
+      where: { id },
+      relations: ['contacts'],
+    });
   }
 
   create(user: CreateUserDto): Promise<User> {
@@ -29,7 +36,19 @@ export class UserService {
   }
 
   async update(id: string, user: User): Promise<User> {
-    await this.usersRepository.update(id, user);
+    const { contacts, ...userData } = user;
+
+    await this.usersRepository.update(id, userData);
+    await this.contactsRepository.delete({ user: { id } });
+    // why it failed
+    // await this.contactsRepository.remove(contacts);
+    const newContacts = contacts.map((contact) => {
+      const newContact = plainToInstance(Contact, contact);
+      newContact.userId = id;
+      return newContact;
+    });
+
+    await this.contactsRepository.save(newContacts);
     return this.findOne(id);
   }
 
