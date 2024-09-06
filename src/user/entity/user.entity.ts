@@ -8,8 +8,8 @@ import {
   JoinTable,
   ManyToMany,
 } from 'typeorm';
-import { Contacts } from '../../contacts/entity/contacts.entity';
-import { Passport } from './passport.entity';
+import { Contacts } from '../../contacts/entity';
+import { Passport } from '../../passport/entity/passport.entity';
 import { Education } from './educations.entity';
 
 @Entity()

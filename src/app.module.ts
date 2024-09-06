@@ -4,6 +4,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { ContactsModule } from './contacts/contacts.module';
+import { PassportModule } from './passport/passport.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ContactsModule } from './contacts/contacts.module';
     }),
     UserModule,
     ContactsModule,
+    PassportModule,
   ],
   providers: [],
 })

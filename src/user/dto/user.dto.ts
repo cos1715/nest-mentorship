@@ -6,7 +6,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { PassportDto } from './passport.dto';
+import { PassportDto } from '../../passport/dto';
 import { EducationDto } from './educations.dto';
 import { ContactsDto } from 'src/contacts/dto/contacts.dto';
 

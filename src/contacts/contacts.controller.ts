@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
-import { Contacts } from './entity/contacts.entity';
+import { Contacts } from './entity';
 import { ContactsDto, UpdateContactsDto } from './dto';
 
 @Controller('contacts')

@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 // import { v4 as uuidv4 } from 'uuid';
 import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/user.dto';
-import { Contacts } from '../contacts/entity/contacts.entity';
+import { Contacts } from '../contacts/entity';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
