@@ -12,7 +12,6 @@ import { ConfigService } from './config/config.service';
       useFactory: async (configService: ConfigService) => configService.db,
       inject: [ConfigService],
     }),
-    ,
     UserModule,
   ],
   providers: [],

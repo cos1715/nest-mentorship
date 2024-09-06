@@ -52,7 +52,10 @@ export class UserService {
 
   // ask to check this function
   async update(id: string, user: User): Promise<User> {
-    const { contacts, ...userData } = user;
+    const {
+      // contacts,
+      ...userData
+    } = user;
 
     await this.usersRepository.save({ id, ...userData });
     // await this.contactsRepository.delete({ user: { id } });

@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -12,12 +13,12 @@ export class ConfigService implements IConfigService {
   constructor(private configService: NestConfigService) {
     this.db = {
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
+      host: this.configService.get<string>('DATABASE_HOST'),
+      port: this.configService.get<number>('DATABASE_PORT'),
       username: this.configService.get<string>('DATABASE_USER'),
       password: this.configService.get<string>('DATABASE_PASSWORD'),
-      database: 'nest-mentorship',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      database: this.configService.get<string>('DATABASE_NAME'),
+      entities: [path.join(__dirname, '..', '**', '*.entity{.ts,.js}')],
       synchronize: true,
       toRetry: () => false,
       logging: true,
