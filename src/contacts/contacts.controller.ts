@@ -1,13 +1,47 @@
-import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { Contacts } from './entity/contacts.entity';
+import { ContactsDto, UpdateContactsDto } from './dto';
 
 @Controller('contacts')
 export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Contacts[]> {
-    return this.contactsService.findUserContacts(id);
+  findContacts(@Param('id', ParseUUIDPipe) id: string): Promise<Contacts[]> {
+    return this.contactsService.findContacts(id);
+  }
+
+  @Post(':id')
+  createContact(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() contact: ContactsDto,
+  ): Promise<Contacts[]> {
+    return this.contactsService.createContact(id, contact);
+  }
+
+  @Put(':id')
+  updateContact(
+    @Param('id', ParseUUIDPipe) userId: string,
+    @Body() contact: UpdateContactsDto,
+  ): Promise<Contacts> {
+    return this.contactsService.updateContact(userId, contact);
+  }
+
+  @Delete(':id')
+  deleteContact(
+    @Param('id', ParseUUIDPipe) userId: string,
+    @Body() contact: UpdateContactsDto,
+  ): Promise<void> {
+    return this.contactsService.deleteContact(userId, contact);
   }
 }
