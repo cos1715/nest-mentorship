@@ -17,8 +17,21 @@ export class UserService {
   ) {}
 
   findAll(): Promise<User[]> {
-    return this.usersRepository.find({ relations: ['contacts', 'passport'] });
+    return this.usersRepository.find({
+      relations: ['contacts', 'passport', 'education'],
+    });
   }
+
+  // login password
+  // guard with token
+
+  // only with first nested element
+  // use query builder for nested elements
+  // findAll(): Promise<User[]> {
+  //   return this.usersRepository.find({
+  //     relations: ['contacts', 'passport', 'education'],
+  //   });
+  // }
 
   async findOne(id: string): Promise<User> {
     return this.usersRepository.findOne({
@@ -41,22 +54,29 @@ export class UserService {
   async update(id: string, user: User): Promise<User> {
     const { contacts, ...userData } = user;
 
-    await this.usersRepository.update(id, userData);
-    await this.contactsRepository.delete({ user: { id } });
-    // why it failed
-    // await this.contactsRepository.remove(contacts);
-    const newContacts = contacts.map((contact) => {
-      const newContact = plainToInstance(Contact, contact);
-      newContact.userId = id;
-      return newContact;
-    });
+    await this.usersRepository.save({ id, ...userData });
+    // await this.contactsRepository.delete({ user: { id } });
+    // // why it failed
+    // // await this.contactsRepository.remove(contacts);
+    // const newContacts = contacts.map((contact) => {
+    //   const newContact = plainToInstance(Contact, contact);
+    //   newContact.userId = id;
+    //   return newContact;
+    // });
 
-    await this.contactsRepository.save(newContacts);
+    // await this.contactsRepository.save(newContacts);
     return this.findOne(id);
   }
 
   // ask to check this function
   async remove(id: string): Promise<void> {
+    const user = await this.findOne(id);
+    // await this.contactsRepository.delete({ user: { id } });
+    await this.usersRepository.remove(user);
+  }
+
+  // ask to check this function
+  async createEdu(id: string): Promise<void> {
     const user = await this.findOne(id);
     // await this.contactsRepository.delete({ user: { id } });
     await this.usersRepository.remove(user);

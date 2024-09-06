@@ -5,9 +5,12 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 import { Contact } from './contacts.entity';
 import { Passport } from './passport.entity';
+import { Education } from './educations.entity';
 
 @Entity()
 export class User {
@@ -23,10 +26,17 @@ export class User {
   email: string;
 
   // why userId was added?
-  @OneToMany(() => Contact, (contact) => contact.user, { cascade: true })
+  @OneToMany(() => Contact, (contact) => contact.user, {
+    cascade: true,
+    orphanedRowAction: 'delete', // read more about this
+  })
   contacts: Contact[];
 
   @OneToOne(() => Passport, (passport) => passport.user, { cascade: true })
   @JoinColumn()
   passport: Passport;
+
+  @ManyToMany(() => Education, (education) => education.users)
+  @JoinTable()
+  education: Education[];
 }

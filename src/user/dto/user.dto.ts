@@ -8,11 +8,14 @@ import {
 import { Type } from 'class-transformer';
 import { ContactDto } from './contact.dto';
 import { PassportDto } from './passport.dto';
+import { EducationDto } from './educations.dto';
 
 interface ICreateUserDto {
   name: string;
   email: string;
   contacts: ContactDto[];
+  passport: PassportDto;
+  education: EducationDto[];
 }
 
 export class CreateUserDto implements ICreateUserDto {
@@ -28,4 +31,7 @@ export class CreateUserDto implements ICreateUserDto {
   @ValidateNested()
   @Type(() => PassportDto)
   passport: PassportDto;
+  @ValidateNested({ each: true })
+  @Type(() => EducationDto)
+  education: EducationDto[];
 }

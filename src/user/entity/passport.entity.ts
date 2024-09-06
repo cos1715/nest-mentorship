@@ -1,12 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToOne } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
 export class Passport {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column()
+  @PrimaryColumn()
   code: string;
 
   @Column({ type: 'date' })
