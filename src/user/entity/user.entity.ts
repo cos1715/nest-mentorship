@@ -8,7 +8,7 @@ import {
   JoinTable,
   ManyToMany,
 } from 'typeorm';
-import { Contact } from './contacts.entity';
+import { Contacts } from '../../contacts/entity/contacts.entity';
 import { Passport } from './passport.entity';
 import { Education } from './educations.entity';
 
@@ -26,11 +26,11 @@ export class User {
   email: string;
 
   // why userId was added?
-  @OneToMany(() => Contact, (contact) => contact.user, {
+  @OneToMany(() => Contacts, (contact) => contact.user, {
     cascade: true,
     orphanedRowAction: 'delete', // read more about this
   })
-  contacts: Contact[];
+  contacts: Contacts[];
 
   @OneToOne(() => Passport, (passport) => passport.user, { cascade: true })
   @JoinColumn()

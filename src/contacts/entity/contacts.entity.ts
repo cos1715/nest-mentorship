@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { User } from './user.entity';
+import { User } from 'src/user/entity/user.entity';
 
 @Entity()
-export class Contact {
+export class Contacts {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -10,8 +10,10 @@ export class Contact {
   name: string;
 
   @Column()
-  number: string;
+  phone: string;
 
+  // I needed to add this column to the entity
+  // is there a way to avoid this?
   @Column({ nullable: true })
   userId: string;
 

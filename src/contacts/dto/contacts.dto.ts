@@ -1,15 +1,15 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-interface IContactDto {
+interface IContactsDto {
   name: string;
-  number: string;
+  phone: string;
 }
 
-export class ContactDto implements IContactDto {
+export class ContactsDto implements IContactsDto {
   @IsString()
   @IsNotEmpty()
   name: string;
   @IsString()
   @IsNotEmpty()
-  number: string;
+  phone: string;
 }

@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 // import { v4 as uuidv4 } from 'uuid';
 import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/user.dto';
-import { Contact } from './entity/contacts.entity';
+import { Contacts } from '../contacts/entity/contacts.entity';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
@@ -12,8 +12,8 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @InjectRepository(Contact)
-    private contactsRepository: Repository<Contact>,
+    @InjectRepository(Contacts)
+    private contactsRepository: Repository<Contacts>,
   ) {}
 
   findAll(): Promise<User[]> {
