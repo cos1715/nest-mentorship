@@ -5,6 +5,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { ContactsModule } from './contacts/contacts.module';
 import { PassportModule } from './passport/passport.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { PassportModule } from './passport/passport.module';
     UserModule,
     ContactsModule,
     PassportModule,
+    AuthModule,
   ],
   providers: [],
 })

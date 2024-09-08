@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator';
 
 interface IContactsDto {
   name: string;
@@ -9,7 +9,7 @@ export class ContactsDto implements IContactsDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-  @IsString()
+  @IsPhoneNumber('UA')
   @IsNotEmpty()
   phone: string;
 }

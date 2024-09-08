@@ -33,7 +33,7 @@ export class UserService {
   async findOne(id: string): Promise<User> {
     return this.usersRepository.findOne({
       where: { id },
-      relations: ['contacts', 'passport'],
+      relations: ['contacts', 'passport', 'education'],
     });
   }
 

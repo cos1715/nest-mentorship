@@ -23,6 +23,9 @@ export class User {
   @Column({ default: '' })
   email: string;
 
+  @Column()
+  password: string;
+
   // why userId was added?
   @OneToMany(() => Contacts, (contact) => contact.user, {
     cascade: true,
