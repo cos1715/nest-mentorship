@@ -18,8 +18,6 @@ export class User {
   id: string;
 
   @Column({ default: 'John Doe' })
-  // why it build failed after adding this line?
-  // @Column({ type: 'varchar', length: 500 })
   name: string;
 
   @Column({ default: '' })
@@ -28,6 +26,7 @@ export class User {
   // why userId was added?
   @OneToMany(() => Contacts, (contact) => contact.user, {
     cascade: true,
+    // not working
     orphanedRowAction: 'delete', // read more about this
   })
   contacts: Contacts[];

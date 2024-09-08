@@ -19,7 +19,6 @@ import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
 
 @Controller('users')
 @UseInterceptors(LoggingInterceptor)
-// why passing classes is better than passing class instance?
 @UseFilters(HttpExceptionFilter)
 export class UserController {
   constructor(private readonly userService: UserService) {

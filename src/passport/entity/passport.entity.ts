@@ -3,7 +3,7 @@ import { User } from '../../user/entity/user.entity';
 
 @Entity()
 export class Passport {
-  @PrimaryColumn()
+  @PrimaryColumn({ unique: true })
   code: string;
 
   @Column({ type: 'date' })

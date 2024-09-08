@@ -11,5 +11,6 @@ import { Education } from './entity/educations.entity';
   imports: [TypeOrmModule.forFeature([User, Contacts, Passport, Education])],
   providers: [UserService],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}

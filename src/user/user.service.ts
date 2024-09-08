@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 // import { v4 as uuidv4 } from 'uuid';
 import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/user.dto';
-import { Contacts } from '../contacts/entity';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
@@ -12,8 +11,6 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @InjectRepository(Contacts)
-    private contactsRepository: Repository<Contacts>,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -51,7 +48,7 @@ export class UserService {
   }
 
   // ask to check this function
-  async update(id: string, user: User): Promise<User> {
+  async update(id: string, user: Partial<User>): Promise<User> {
     const {
       // contacts,
       ...userData
@@ -73,13 +70,6 @@ export class UserService {
 
   // ask to check this function
   async remove(id: string): Promise<void> {
-    const user = await this.findOne(id);
-    // await this.contactsRepository.delete({ user: { id } });
-    await this.usersRepository.remove(user);
-  }
-
-  // ask to check this function
-  async createEdu(id: string): Promise<void> {
     const user = await this.findOne(id);
     // await this.contactsRepository.delete({ user: { id } });
     await this.usersRepository.remove(user);

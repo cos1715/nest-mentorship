@@ -2,8 +2,9 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Passport } from './entity';
-import { PassportDto } from './dto';
+import { PassportDto, UpdatePassportDto } from './dto';
 import { User } from 'src/user/entity';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class PassportService {
@@ -12,7 +13,12 @@ export class PassportService {
     private passportRepository: Repository<Passport>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private readonly userService: UserService,
   ) {}
+
+  async getPassport(code: string): Promise<Passport> {
+    return this.passportRepository.findOne({ where: { code } });
+  }
 
   async findPassport(id: string): Promise<Passport> {
     const user = await this.userRepository
@@ -33,22 +39,30 @@ export class PassportService {
 
   async createPassport(id: string, data: PassportDto): Promise<Passport> {
     const passport = await this.findPassport(id);
-    if (passport) {
-      throw new HttpException('Passport already exists', 400);
+    const passportExist = await this.getPassport(data.code);
+    if (passport || passportExist) {
+      throw new HttpException('Passport already exists', 405);
     }
+
+    // is there a better way to create passport?
     const newPassport = this.passportRepository.create(data);
-    await this.passportRepository.save(newPassport);
+    this.userService.update(id, {
+      passport: newPassport,
+    });
     return newPassport;
   }
 
-  async updatePassport(userId: string, data: PassportDto): Promise<Passport> {
+  async updatePassport(
+    userId: string,
+    data: UpdatePassportDto,
+  ): Promise<Passport> {
     const passport = await this.findPassport(userId);
-    if (data.code === passport.code) {
-      const newPassport: Passport = { ...passport, ...data };
-      await this.passportRepository.update(data.code, newPassport);
-      return newPassport;
-    } else {
-      throw new HttpException('Unauthorized', 403);
-    }
+    const newPassport: Passport = { ...passport, ...data };
+    // how to delete old passport?
+    // this.passportRepository.delete({ code: passport.code });
+    await this.userService.update(userId, {
+      passport: newPassport,
+    });
+    return newPassport;
   }
 }

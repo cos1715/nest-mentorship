@@ -4,10 +4,11 @@ import { PassportController } from './passport.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Passport } from './entity';
 import { User } from 'src/user/entity';
+import { UserService } from 'src/user/user.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Passport, User])],
-  providers: [PassportService],
+  providers: [PassportService, UserService],
   controllers: [PassportController],
   exports: [PassportService],
 })
