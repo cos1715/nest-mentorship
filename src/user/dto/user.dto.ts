@@ -25,6 +25,9 @@ export class CreateUserDto implements ICreateUserDto {
   @IsEmail()
   @IsOptional()
   email: string;
+  @IsString()
+  @IsOptional()
+  password: string;
   @ValidateNested({ each: true })
   @Type(() => ContactsDto)
   contacts: ContactsDto[];

@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 // import { v4 as uuidv4 } from 'uuid';
 import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/user.dto';
@@ -43,24 +44,49 @@ export class UserService {
     });
   }
 
-  create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const user = plainToInstance(User, createUserDto);
+    if (user.password) {
+      try {
+        const hash = await bcrypt.hash(user.password, 10);
+        user.password = hash;
+      } catch {
+        throw new HttpException('Error hashing password', 500);
+      }
+    }
     return this.usersRepository.save(user);
   }
 
-  createBulk(data: CreateUserDto[]): Promise<User[]> {
-    const users = data.map((user) => plainToInstance(User, user));
+  async createBulk(data: CreateUserDto[]): Promise<User[]> {
+    const users = await Promise.all(
+      data.map(async (user) => {
+        const data = plainToInstance(User, user);
+        if (data.password) {
+          try {
+            const hash = await bcrypt.hash(data.password, 10);
+            data.password = hash;
+          } catch {
+            throw new HttpException('Error hashing password', 500);
+          }
+        }
+        return data;
+      }),
+    );
     return this.usersRepository.save(users);
   }
 
   // ask to check this function
   async update(id: string, user: Partial<User>): Promise<User> {
-    const {
-      // contacts,
-      ...userData
-    } = user;
+    if (user.password) {
+      try {
+        const hash = await bcrypt.hash(user.password, 10);
+        user.password = hash;
+      } catch {
+        throw new HttpException('Error hashing password', 500);
+      }
+    }
 
-    await this.usersRepository.save({ id, ...userData });
+    await this.usersRepository.save({ id, ...user });
     // await this.contactsRepository.delete({ user: { id } });
     // // why it failed
     // // await this.contactsRepository.remove(contacts);
