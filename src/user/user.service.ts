@@ -37,6 +37,12 @@ export class UserService {
     });
   }
 
+  async findOneByEmail(email: string): Promise<User> {
+    return this.usersRepository.findOne({
+      where: { email },
+    });
+  }
+
   create(createUserDto: CreateUserDto): Promise<User> {
     const user = plainToInstance(User, createUserDto);
     return this.usersRepository.save(user);

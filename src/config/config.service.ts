@@ -5,12 +5,15 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 interface IConfigService {
   db: TypeOrmModuleOptions;
+  jwtSecret: string;
 }
 
 @Injectable()
 export class ConfigService implements IConfigService {
   db: TypeOrmModuleOptions;
+  jwtSecret: string;
   constructor(private configService: NestConfigService) {
+    this.jwtSecret = this.configService.get<string>('JWT_SECRET');
     this.db = {
       type: 'postgres',
       host: this.configService.get<string>('DATABASE_HOST'),
