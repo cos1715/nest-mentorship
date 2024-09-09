@@ -20,13 +20,13 @@ interface ICreateUserDto {
 
 export class CreateUserDto implements ICreateUserDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   name: string;
   @IsEmail()
-  @IsOptional()
+  @IsNotEmpty()
   email: string;
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   password: string;
   @ValidateNested({ each: true })
   @Type(() => ContactsDto)
