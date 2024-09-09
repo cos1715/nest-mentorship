@@ -14,7 +14,7 @@ import {
 import { UserService } from './user.service';
 import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto';
 import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
 
 @Controller('users')

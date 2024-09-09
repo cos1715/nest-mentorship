@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 // import { v4 as uuidv4 } from 'uuid';
 import { User } from './entity/user.entity';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
@@ -14,10 +14,12 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find({
+  async findAll(): Promise<User[]> {
+    const users = await this.usersRepository.find({
       relations: ['contacts', 'passport', 'education'],
+      select: ['id', 'name', 'email', 'contacts', 'passport', 'education'],
     });
+    return users;
   }
 
   // login password
@@ -35,6 +37,7 @@ export class UserService {
     return this.usersRepository.findOne({
       where: { id },
       relations: ['contacts', 'passport', 'education'],
+      select: ['id', 'name', 'email', 'contacts', 'passport', 'education'],
     });
   }
 
