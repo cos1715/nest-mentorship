@@ -7,8 +7,8 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PassportDto } from '../../passport/dto';
-import { EducationDto } from './educations.dto';
-import { ContactsDto } from 'src/contacts/dto/contacts.dto';
+import { EducationDto } from '../../education/dto';
+import { ContactsDto } from '../../contacts/dto';
 
 interface IUserDto {
   name: string;

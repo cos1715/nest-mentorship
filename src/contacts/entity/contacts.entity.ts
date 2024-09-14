@@ -15,6 +15,6 @@ export class Contacts {
   @Column({ type: 'uuid' })
   userId: string;
 
-  @ManyToOne(() => User, (user) => user.contacts)
+  @ManyToOne(() => User, (user) => user.contacts, { onDelete: 'CASCADE' })
   user: User;
 }

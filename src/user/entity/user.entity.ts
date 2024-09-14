@@ -29,12 +29,11 @@ export class User {
   // why userId was added?
   @OneToMany(() => Contacts, (contact) => contact.user, {
     cascade: true,
-    // not working
     orphanedRowAction: 'delete', // read more about this
   })
   contacts: Contacts[];
 
-  @OneToOne(() => Passport, (passport) => passport.user, { cascade: true })
+  @OneToOne(() => Passport, (passport) => passport.user, {})
   @JoinColumn()
   passport: Passport;
 

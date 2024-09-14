@@ -12,6 +12,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Education)
     private educationRepository: Repository<Education>,
   ) {}
 
@@ -22,17 +23,6 @@ export class UserService {
     });
     return users;
   }
-
-  // login password
-  // guard with token
-
-  // only with first nested element
-  // use query builder for nested elements
-  // findAll(): Promise<User[]> {
-  //   return this.usersRepository.find({
-  //     relations: ['contacts', 'passport', 'education'],
-  //   });
-  // }
 
   async findOne(id: string): Promise<User> {
     return this.usersRepository.findOne({
@@ -59,9 +49,9 @@ export class UserService {
       }
     }
     if (user.education) {
-      // const educations = this.educationRepository.create(user.education);
-      // await this.educationRepository.save(educations);
-      // user.education = educations;
+      const educations = this.educationRepository.create(user.education);
+      await this.educationRepository.save(educations);
+      user.education = educations;
     }
 
     return this.usersRepository.save(user);
@@ -79,9 +69,9 @@ export class UserService {
             throw new HttpException('Error hashing password', 500);
           }
           if (user.education) {
-            // const educations = this.educationRepository.create(user.education);
-            // await this.educationRepository.save(educations);
-            // user.education = educations;
+            const educations = this.educationRepository.create(user.education);
+            await this.educationRepository.save(educations);
+            user.education = educations;
           }
         }
         return data;
@@ -115,10 +105,8 @@ export class UserService {
     return this.findOne(id);
   }
 
-  // ask to check this function
   async remove(id: string): Promise<void> {
     const user = await this.findOne(id);
-    // await this.contactsRepository.delete({ user: { id } });
     await this.usersRepository.remove(user);
   }
 }
