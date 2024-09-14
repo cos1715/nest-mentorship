@@ -12,9 +12,7 @@ export class Contacts {
   @Column()
   phone: string;
 
-  // I needed to add this column to the entity
-  // is there a way to avoid this?
-  @Column({ nullable: true })
+  @Column({ type: 'uuid' })
   userId: string;
 
   @ManyToOne(() => User, (user) => user.contacts)

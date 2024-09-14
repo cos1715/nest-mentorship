@@ -12,7 +12,7 @@ export class ContactsService {
   ) {}
 
   findContacts(id: string): Promise<Contacts[]> {
-    return this.contactsRepository.find({ where: { userId: id } });
+    return this.contactsRepository.findBy({ userId: id });
   }
 
   async createContact(id: string, data: ContactsDto): Promise<Contacts[]> {

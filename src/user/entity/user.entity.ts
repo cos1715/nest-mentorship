@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Contacts } from '../../contacts/entity';
 import { Passport } from '../../passport/entity/passport.entity';
-import { Education } from './educations.entity';
+import { Education } from '../../education/entity';
 
 @Entity()
 export class User {

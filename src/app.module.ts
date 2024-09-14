@@ -6,6 +6,7 @@ import { ConfigService } from './config/config.service';
 import { ContactsModule } from './contacts/contacts.module';
 import { PassportModule } from './passport/passport.module';
 import { AuthModule } from './auth/auth.module';
+import { EducationModule } from './education/education.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
     ContactsModule,
     PassportModule,
     AuthModule,
+    EducationModule,
   ],
   providers: [],
 })

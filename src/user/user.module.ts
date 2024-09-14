@@ -5,7 +5,7 @@ import { UserController } from './user.controller';
 import { User } from './entity/user.entity';
 import { Contacts } from '../contacts/entity';
 import { Passport } from '../passport/entity';
-import { Education } from './entity/educations.entity';
+import { Education } from '../education/entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Contacts, Passport, Education])],

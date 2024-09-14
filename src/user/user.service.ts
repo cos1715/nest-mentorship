@@ -2,16 +2,17 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-// import { v4 as uuidv4 } from 'uuid';
-import { User } from './entity/user.entity';
-import { CreateUserDto } from './dto';
 import { plainToInstance } from 'class-transformer';
+import { CreateUserDto } from './dto';
+import { User } from './entity/user.entity';
+import { Education } from '../education/entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private educationRepository: Repository<Education>,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -57,6 +58,12 @@ export class UserService {
         throw new HttpException('Error hashing password', 500);
       }
     }
+    if (user.education) {
+      // const educations = this.educationRepository.create(user.education);
+      // await this.educationRepository.save(educations);
+      // user.education = educations;
+    }
+
     return this.usersRepository.save(user);
   }
 
@@ -70,6 +77,11 @@ export class UserService {
             data.password = hash;
           } catch {
             throw new HttpException('Error hashing password', 500);
+          }
+          if (user.education) {
+            // const educations = this.educationRepository.create(user.education);
+            // await this.educationRepository.save(educations);
+            // user.education = educations;
           }
         }
         return data;
