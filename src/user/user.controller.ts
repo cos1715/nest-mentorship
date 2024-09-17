@@ -10,12 +10,14 @@ import {
   ParseUUIDPipe,
   UseInterceptors,
   ParseArrayPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
 import { CreateUserDto } from './dto';
 import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
+import { LocalAuthGuard } from 'src/auth/guards';
 
 @Controller('users')
 @UseInterceptors(LoggingInterceptor)
@@ -23,6 +25,7 @@ import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(LocalAuthGuard)
   @Get()
   findAll(): Promise<User[]> {
     return this.userService.findAll();
