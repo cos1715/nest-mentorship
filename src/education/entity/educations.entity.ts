@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  Index,
+} from 'typeorm';
 import { User } from '../../user/entity';
 
+@Index(['facilityName', 'degree'], { unique: true })
 @Entity()
 export class Education {
   @PrimaryGeneratedColumn('uuid')
@@ -9,7 +16,7 @@ export class Education {
   @Column({ enum: ['Bachelors', 'Masters', 'PhD'] })
   degree: string;
 
-  @Column({ unique: true })
+  @Column()
   facilityName: string;
 
   @ManyToMany(() => User, (user) => user.education)

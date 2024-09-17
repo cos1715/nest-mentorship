@@ -23,6 +23,12 @@ export class EducationService {
     return this.educationRepository.find({ where: { [filter]: query } });
   }
 
+  findOneByQuery(query: EducationDto): Promise<Education> {
+    return this.educationRepository.findOne({
+      where: { degree: query.degree, facilityName: query.facilityName },
+    });
+  }
+
   async create(body: EducationDto): Promise<Education> {
     return this.educationRepository.save(body);
   }

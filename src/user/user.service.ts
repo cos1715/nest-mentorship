@@ -6,14 +6,14 @@ import { plainToInstance } from 'class-transformer';
 import { CreateUserDto } from './dto';
 import { User } from './entity/user.entity';
 import { Education } from '../education/entity';
+import { EducationService } from '../education/education.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @InjectRepository(Education)
-    private educationRepository: Repository<Education>,
+    private readonly educationService: EducationService,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -51,9 +51,7 @@ export class UserService {
     if (user.education && user.education.length > 0) {
       const educationEntities = await Promise.all(
         user.education.map(async (eduDto) => {
-          const education = await this.educationRepository.findOne({
-            where: { degree: eduDto.degree, facilityName: eduDto.facilityName },
-          });
+          const education = await this.educationService.findOneByQuery(eduDto);
 
           if (!education) {
             return plainToInstance(Education, eduDto);
@@ -79,11 +77,6 @@ export class UserService {
           } catch {
             throw new HttpException('Error hashing password', 500);
           }
-          if (user.education) {
-            const educations = this.educationRepository.create(user.education);
-            await this.educationRepository.save(educations);
-            user.education = educations;
-          }
         }
         return data;
       }),
@@ -101,10 +94,19 @@ export class UserService {
       }
     }
 
-    if (user.education) {
-      const educations = this.educationRepository.create(user.education);
-      await this.educationRepository.save(educations);
-      user.education = educations;
+    if (user.education && user.education.length > 0) {
+      const educationEntities = await Promise.all(
+        user.education.map(async (eduDto) => {
+          const education = await this.educationService.findOneByQuery(eduDto);
+
+          if (!education) {
+            return plainToInstance(Education, eduDto);
+          }
+
+          return education;
+        }),
+      );
+      user.education = educationEntities;
     }
     await this.usersRepository.save({ id, ...user });
 

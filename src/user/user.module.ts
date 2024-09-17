@@ -6,9 +6,13 @@ import { User } from './entity/user.entity';
 import { Contacts } from '../contacts/entity';
 import { Passport } from '../passport/entity';
 import { Education } from '../education/entity';
+import { EducationModule } from '../education/education.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Contacts, Passport, Education])],
+  imports: [
+    TypeOrmModule.forFeature([User, Contacts, Passport, Education]),
+    EducationModule,
+  ],
   providers: [UserService],
   controllers: [UserController],
   exports: [UserService],

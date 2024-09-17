@@ -1,10 +1,4 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PassportDto } from '../../passport/dto';
 import { EducationDto } from '../../education/dto';
@@ -23,7 +17,6 @@ export class UserDto implements IUserDto {
   @IsNotEmpty()
   name: string;
   @IsEmail()
-  @IsOptional()
   email: string;
   @ValidateNested({ each: true })
   @Type(() => ContactsDto)

@@ -6,7 +6,6 @@ interface IEducationDto {
 }
 
 export class EducationDto implements IEducationDto {
-  @IsString()
   @IsEnum(['Bachelors', 'Masters', 'PhD'])
   @IsNotEmpty()
   degree: string;
