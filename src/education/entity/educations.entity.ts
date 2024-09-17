@@ -6,10 +6,10 @@ export class Education {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ enum: ['Bachelors', 'Masters', 'PhD'] })
   degree: string;
 
-  @Column()
+  @Column({ unique: true })
   facilityName: string;
 
   @ManyToMany(() => User, (user) => user.education)

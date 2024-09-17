@@ -91,7 +91,6 @@ export class UserService {
     return this.usersRepository.save(users);
   }
 
-  // ask to check this function
   async update(id: string, user: Partial<User>): Promise<User> {
     if (user.password) {
       try {
@@ -102,17 +101,13 @@ export class UserService {
       }
     }
 
+    if (user.education) {
+      const educations = this.educationRepository.create(user.education);
+      await this.educationRepository.save(educations);
+      user.education = educations;
+    }
     await this.usersRepository.save({ id, ...user });
-    // await this.contactsRepository.delete({ user: { id } });
-    // // why it failed
-    // // await this.contactsRepository.remove(contacts);
-    // const newContacts = contacts.map((contact) => {
-    //   const newContact = plainToInstance(Contact, contact);
-    //   newContact.userId = id;
-    //   return newContact;
-    // });
 
-    // await this.contactsRepository.save(newContacts);
     return this.findOne(id);
   }
 

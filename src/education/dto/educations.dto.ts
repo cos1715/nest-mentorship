@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 
 interface IEducationDto {
   degree: string;
@@ -7,6 +7,7 @@ interface IEducationDto {
 
 export class EducationDto implements IEducationDto {
   @IsString()
+  @IsEnum(['Bachelors', 'Masters', 'PhD'])
   @IsNotEmpty()
   degree: string;
   @IsString()

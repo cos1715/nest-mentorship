@@ -39,7 +39,7 @@ export class User {
   passport: Passport;
 
   @ManyToMany(() => Education, (education) => education.users, {
-    cascade: ['insert', 'update'],
+    cascade: true,
   })
   @JoinTable()
   education: Education[];
