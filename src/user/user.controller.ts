@@ -21,9 +21,7 @@ import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
 @UseInterceptors(LoggingInterceptor)
 @UseFilters(HttpExceptionFilter)
 export class UserController {
-  constructor(private readonly userService: UserService) {
-    // what can in be in constructor?
-  }
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   findAll(): Promise<User[]> {
