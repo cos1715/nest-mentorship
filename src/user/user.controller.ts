@@ -17,7 +17,7 @@ import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
 import { CreateUserDto } from './dto';
 import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
-import { LocalAuthGuard } from 'src/auth/guards';
+import { LocalAuthGuard } from '../guards';
 
 @Controller('users')
 @UseInterceptors(LoggingInterceptor)
