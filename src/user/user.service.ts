@@ -48,10 +48,21 @@ export class UserService {
         throw new HttpException('Error hashing password', 500);
       }
     }
-    if (user.education) {
-      const educations = this.educationRepository.create(user.education);
-      await this.educationRepository.save(educations);
-      user.education = educations;
+    if (user.education && user.education.length > 0) {
+      const educationEntities = await Promise.all(
+        user.education.map(async (eduDto) => {
+          const education = await this.educationRepository.findOne({
+            where: { degree: eduDto.degree, facilityName: eduDto.facilityName },
+          });
+
+          if (!education) {
+            return plainToInstance(Education, eduDto);
+          }
+
+          return education;
+        }),
+      );
+      user.education = educationEntities;
     }
 
     return this.usersRepository.save(user);

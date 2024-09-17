@@ -20,24 +20,27 @@ export class User {
   @Column({ default: 'John Doe' })
   name: string;
 
-  @Column({ default: '' })
+  @Column({ default: '', unique: true })
   email: string;
 
   @Column()
   password: string;
 
-  // why userId was added?
   @OneToMany(() => Contacts, (contact) => contact.user, {
     cascade: true,
-    orphanedRowAction: 'delete', // read more about this
+    orphanedRowAction: 'delete',
   })
   contacts: Contacts[];
 
-  @OneToOne(() => Passport, (passport) => passport.user, {})
+  @OneToOne(() => Passport, (passport) => passport.user, {
+    cascade: true,
+  })
   @JoinColumn()
   passport: Passport;
 
-  @ManyToMany(() => Education, (education) => education.users)
+  @ManyToMany(() => Education, (education) => education.users, {
+    cascade: ['insert', 'update'],
+  })
   @JoinTable()
   education: Education[];
 }

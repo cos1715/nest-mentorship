@@ -1,0 +1,103 @@
+[
+  {
+    "id": "9ff8b96c-e4a6-4b21-b925-e3d0702ae517",
+    "name": "Sev",
+    "email": "Sev@n-ix.com",
+    "contacts": [],
+    "passport": {
+      "code": "AONO",
+      "issuedDate": "2024-09-06"
+    },
+    "education": [
+      {
+        "id": "2637eee1-3e62-414c-be05-ce6eccc5eec5",
+        "degree": "Master",
+        "facilityName": "Jedi"
+      }
+    ]
+  },
+  {
+    "id": "f8ac4326-3ae1-41ed-b769-2aa464c846b0",
+    "name": "Sco",
+    "email": "Sco@n-ix.com",
+    "contacts": [
+      {
+        "id": "0c482c62-4b2a-4c28-aca2-38bdce4fe247",
+        "name": "A",
+        "phone": "0734947281",
+        "userId": "f8ac4326-3ae1-41ed-b769-2aa464c846b0"
+      }
+    ],
+    "passport": null,
+    "education": [
+      {
+        "id": "1dcffe3d-4a2e-477c-b8cc-e871addb02aa",
+        "degree": "BSc CS",
+        "facilityName": "University A"
+      },
+      {
+        "id": "29f79c38-7fc8-4065-a59e-efb6513dcb37",
+        "degree": "MSc CS",
+        "facilityName": "University B"
+      }
+    ]
+  },
+  {
+    "id": "1a2e01c3-05db-4410-a7d5-15193f57a53a",
+    "name": "Oops",
+    "email": "test@n-ix.com",
+    "contacts": [
+      {
+        "id": "7f3d0a46-6f70-48e0-a5cd-c48e5ba814a2",
+        "name": "Test",
+        "phone": "123",
+        "userId": "1a2e01c3-05db-4410-a7d5-15193f57a53a"
+      },
+      {
+        "id": "7045d702-09b4-4139-b462-7cf8bc3bb246",
+        "name": "Test",
+        "phone": "097",
+        "userId": "1a2e01c3-05db-4410-a7d5-15193f57a53a"
+      },
+      {
+        "id": "4079ba9b-a65b-4b5e-afd1-6f6d3ac7f1d5",
+        "name": "Andy",
+        "phone": "12345",
+        "userId": "1a2e01c3-05db-4410-a7d5-15193f57a53a"
+      },
+      {
+        "id": "8af24b19-43bd-4abc-a332-e9e983e574b7",
+        "name": "Taras1",
+        "phone": "123",
+        "userId": "1a2e01c3-05db-4410-a7d5-15193f57a53a"
+      }
+    ],
+    "passport": {
+      "code": "BC 1715 OI",
+      "issuedDate": "2024-07-08"
+    },
+    "education": []
+  },
+  {
+    "id": "035583f2-f1c9-474c-baf0-1146a62fbfe8",
+    "name": "Yas",
+    "email": "Yas@n-ix.com",
+    "contacts": [],
+    "passport": {
+      "code": "AO",
+      "issuedDate": "2024-09-06"
+    },
+    "education": []
+  },
+  {
+    "id": "273db51c-9e2c-44f1-ba60-116be83c51b3",
+    "name": "Taras",
+    "email": "taras@n-ix.com",
+    "contacts": [],
+    "passport": {
+      "code": "ABC",
+      "issuedDate": "2024-09-08"
+    },
+    "education": []
+  }
+]

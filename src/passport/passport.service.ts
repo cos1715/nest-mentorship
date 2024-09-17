@@ -35,7 +35,7 @@ export class PassportService {
   async createPassport(id: string, data: PassportDto): Promise<Passport> {
     const passport = await this.findPassport(id);
     const passportExist = await this.getPassport(data.code);
-    if (passport || passportExist) {
+    if (passport.code || passportExist) {
       throw new HttpException('Passport already exists', 405);
     }
 

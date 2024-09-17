@@ -25,6 +25,7 @@ export class ConfigService implements IConfigService {
       synchronize: true,
       toRetry: () => false,
       logging: true,
+      migrations: [__dirname + '/../migrations/**/*.{ts,js}'],
     };
   }
 }
