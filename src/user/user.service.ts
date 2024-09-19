@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
-import { CreateUserDto } from './dto';
+import { UserDto } from './dto';
 import { User } from './entity/user.entity';
 import { Education } from '../education/entity';
 import { EducationService } from '../education/education.service';
@@ -38,7 +38,7 @@ export class UserService {
     });
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: UserDto): Promise<User> {
     const user = plainToInstance(User, createUserDto);
     if (user.password) {
       try {
@@ -66,7 +66,7 @@ export class UserService {
     return this.usersRepository.save(user);
   }
 
-  async createBulk(data: CreateUserDto[]): Promise<User[]> {
+  async createBulk(data: UserDto[]): Promise<User[]> {
     const users = await Promise.all(
       data.map(async (user) => {
         const data = plainToInstance(User, user);

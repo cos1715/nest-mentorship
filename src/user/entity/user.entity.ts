@@ -26,6 +26,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ enum: ['admin', 'user'], default: 'user' })
+  role: string;
+
   @OneToMany(() => Contacts, (contact) => contact.user, {
     cascade: true,
     orphanedRowAction: 'delete',

@@ -15,7 +15,7 @@ import {
 import { UserService } from './user.service';
 import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
-import { CreateUserDto } from './dto';
+import { UserDto } from './dto';
 import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
 import { LocalAuthGuard } from '../guards';
 
@@ -37,14 +37,14 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() user: CreateUserDto): Promise<User> {
+  create(@Body() user: UserDto): Promise<User> {
     return this.userService.create(user);
   }
 
   @Post('/bulk')
   createBulk(
-    @Body(new ParseArrayPipe({ items: CreateUserDto }))
-    users: CreateUserDto[],
+    @Body(new ParseArrayPipe({ items: UserDto }))
+    users: UserDto[],
   ): Promise<User[]> {
     return this.userService.createBulk(users);
   }

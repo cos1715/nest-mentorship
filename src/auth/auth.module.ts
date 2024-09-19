@@ -20,7 +20,7 @@ import { ConfigModule } from 'src/config/config.module';
       ): Promise<JwtModuleOptions> => {
         return {
           secret: configService.jwtSecret,
-          signOptions: { expiresIn: '1h' },
+          signOptions: { expiresIn: '1d' },
           global: true,
         };
       },
