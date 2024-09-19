@@ -28,7 +28,12 @@ export class AuthService {
   }
 
   async passportSignIn(user: Partial<User>): Promise<string> {
-    const payload = { sub: user.id, username: user.name, email: user.email };
+    const payload = {
+      sub: user.id,
+      username: user.name,
+      email: user.email,
+      role: user.role,
+    };
     return this.jwtService.sign(payload);
   }
 }
