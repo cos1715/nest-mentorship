@@ -10,14 +10,14 @@ import {
   ParseUUIDPipe,
   UseInterceptors,
   ParseArrayPipe,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
-import { UserDto } from './dto';
+import { UpdateUserDto, UserDto } from './dto';
 import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
-import { LocalAuthGuard } from '../guards';
+// import { LocalAuthGuard } from '../guards';
 
 @Controller('users')
 @UseInterceptors(LoggingInterceptor)
@@ -25,7 +25,7 @@ import { LocalAuthGuard } from '../guards';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(LocalAuthGuard)
   @Get()
   findAll(): Promise<User[]> {
     return this.userService.findAll();
@@ -52,7 +52,7 @@ export class UserController {
   @Put(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() user: User,
+    @Body() user: UpdateUserDto,
   ): Promise<User> {
     return this.userService.update(id, user);
   }

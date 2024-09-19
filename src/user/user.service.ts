@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
-import { UserDto } from './dto';
+import { UpdateUserDto, UserDto } from './dto';
 import { User } from './entity/user.entity';
 import { Education } from '../education/entity';
 import { EducationService } from '../education/education.service';
@@ -19,8 +19,17 @@ export class UserService {
   async findAll(): Promise<User[]> {
     const users = await this.usersRepository.find({
       relations: ['contacts', 'passport', 'education'],
-      select: ['id', 'name', 'email', 'contacts', 'passport', 'education'],
+      select: [
+        'id',
+        'name',
+        'email',
+        'contacts',
+        'passport',
+        'education',
+        'role',
+      ],
     });
+
     return users;
   }
 
@@ -28,7 +37,15 @@ export class UserService {
     return this.usersRepository.findOne({
       where: { id },
       relations: ['contacts', 'passport', 'education'],
-      select: ['id', 'name', 'email', 'contacts', 'passport', 'education'],
+      select: [
+        'id',
+        'name',
+        'email',
+        'contacts',
+        'passport',
+        'education',
+        'role',
+      ],
     });
   }
 
@@ -84,7 +101,7 @@ export class UserService {
     return this.usersRepository.save(users);
   }
 
-  async update(id: string, user: Partial<User>): Promise<User> {
+  async update(id: string, user: Partial<UpdateUserDto>): Promise<User> {
     if (user.password) {
       try {
         const hash = await bcrypt.hash(user.password, 10);

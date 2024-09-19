@@ -1,7 +1,6 @@
 import {
   IsEmail,
   IsEnum,
-  IsNotEmpty,
   IsOptional,
   IsString,
   ValidateNested,
@@ -10,19 +9,19 @@ import { Type } from 'class-transformer';
 import { PassportDto } from '../../passport/dto';
 import { EducationDto } from '../../education/dto';
 import { ContactsDto } from '../../contacts/dto/contacts.dto';
-import { EUserRole, IUserDto } from './types';
+import { IUserDto, EUserRole } from './types';
 
-export class UserDto implements IUserDto {
+export class UpdateUserDto implements IUserDto {
   @IsString()
   @IsOptional()
   name: string;
 
   @IsEmail()
-  @IsNotEmpty()
+  @IsOptional()
   email: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   password: string;
 
   @IsEnum(EUserRole)

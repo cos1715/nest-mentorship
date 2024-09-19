@@ -5,8 +5,14 @@ interface IEducationDto {
   facilityName: string;
 }
 
+export enum EDegree {
+  Bachelors = 'Bachelors',
+  Masters = 'Masters',
+  PhD = 'PhD',
+}
+
 export class EducationDto implements IEducationDto {
-  @IsEnum(['Bachelors', 'Masters', 'PhD'])
+  @IsEnum(EDegree)
   @IsNotEmpty()
   degree: string;
   @IsString()
