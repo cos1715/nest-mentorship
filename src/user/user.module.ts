@@ -7,10 +7,13 @@ import { Contacts } from '../contacts/entity';
 import { Passport } from '../passport/entity';
 import { Education } from '../education/entity';
 import { EducationModule } from '../education/education.module';
+import { CaslModule } from 'src/casl/casl.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Contacts, Passport, Education]),
+    // is that ok?
+    CaslModule,
     EducationModule,
   ],
   providers: [UserService],

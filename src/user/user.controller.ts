@@ -10,6 +10,8 @@ import {
   ParseUUIDPipe,
   UseInterceptors,
   ParseArrayPipe,
+  Request,
+  HttpException,
   // UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -17,18 +19,28 @@ import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
 import { UpdateUserDto, UserDto } from './dto';
 import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
+import { CaslAbilityFactory, EAction } from 'src/casl/casl-ability.factory';
 // import { LocalAuthGuard } from '../guards';
 
 @Controller('users')
 @UseInterceptors(LoggingInterceptor)
 @UseFilters(HttpExceptionFilter)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private caslAbilityFactory: CaslAbilityFactory,
+  ) {}
 
   // @UseGuards(LocalAuthGuard)
   @Get()
-  findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  findAll(@Request() req): Promise<User[]> {
+    const user = req?.user as User;
+    const ability = this.caslAbilityFactory.createForUser(user);
+    const access = ability.can(EAction.Read, User);
+    if (access) {
+      return this.userService.findAll();
+    }
+    throw new HttpException('Forbidden', 403);
   }
 
   @Get(':id')

@@ -9,6 +9,7 @@ import { PassportModule } from './passport/passport.module';
 import { AuthModule } from './auth/auth.module';
 import { EducationModule } from './education/education.module';
 import { JwtAuthGuard } from './guards';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -18,6 +19,8 @@ import { JwtAuthGuard } from './guards';
       useFactory: async (configService: ConfigService) => configService.db,
       inject: [ConfigService],
     }),
+    // is that ok?
+    CaslModule,
     UserModule,
     ContactsModule,
     PassportModule,
