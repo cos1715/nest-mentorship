@@ -38,8 +38,8 @@ export class EducationService {
     return this.findById(id);
   }
 
-  // if education is assigned to a user, it can't be deleted
   async delete(id: string): Promise<null> {
+    // you need to check if the education is assigned to a user and then delete it
     await this.educationRepository.delete(id);
     return null;
   }

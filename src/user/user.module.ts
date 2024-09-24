@@ -12,7 +12,6 @@ import { CaslModule } from 'src/casl/casl.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Contacts, Passport, Education]),
-    // is that ok?
     CaslModule,
     EducationModule,
   ],

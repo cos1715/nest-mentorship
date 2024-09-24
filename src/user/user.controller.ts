@@ -12,6 +12,7 @@ import {
   ParseArrayPipe,
   Request,
   HttpException,
+  UseGuards,
   // UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -19,7 +20,13 @@ import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
 import { UpdateUserDto, UserDto } from './dto';
 import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
-import { CaslAbilityFactory, EAction } from 'src/casl/casl-ability.factory';
+import {
+  AppAbility,
+  CaslAbilityFactory,
+  EAction,
+} from 'src/casl/casl-ability.factory';
+import { CheckPolicies } from 'src/decorators';
+import { PoliciesGuard } from 'src/guards/authorization.guard';
 // import { LocalAuthGuard } from '../guards';
 
 @Controller('users')
@@ -44,11 +51,15 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability: AppAbility) => ability.can(EAction.Read, User))
   findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User> {
     return this.userService.findOne(id);
   }
 
   @Post()
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability: AppAbility) => ability.can(EAction.Create, User))
   create(@Body() user: UserDto): Promise<User> {
     return this.userService.create(user);
   }
@@ -62,6 +73,8 @@ export class UserController {
   }
 
   @Put(':id')
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability: AppAbility) => ability.can(EAction.Update, User))
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() user: UpdateUserDto,
@@ -70,6 +83,8 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies((ability: AppAbility) => ability.can(EAction.Delete, User))
   remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.userService.remove(id);
   }

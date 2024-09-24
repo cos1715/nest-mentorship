@@ -9,7 +9,12 @@ import { PassportModule } from './passport/passport.module';
 import { AuthModule } from './auth/auth.module';
 import { EducationModule } from './education/education.module';
 import { JwtAuthGuard } from './guards';
-import { CaslModule } from './casl/casl.module';
+import { FileModule } from './file/file.module';
+
+// https://docs.nestjs.com/techniques/caching
+// https://docs.nestjs.com/techniques/compression
+// https://docs.nestjs.com/techniques/http-module
+// https://docs.nestjs.com/techniques/task-scheduling
 
 @Module({
   imports: [
@@ -19,13 +24,12 @@ import { CaslModule } from './casl/casl.module';
       useFactory: async (configService: ConfigService) => configService.db,
       inject: [ConfigService],
     }),
-    // is that ok?
-    CaslModule,
     UserModule,
     ContactsModule,
     PassportModule,
     AuthModule,
     EducationModule,
+    FileModule,
   ],
   providers: [
     {
