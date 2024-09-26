@@ -8,9 +8,11 @@ import { Passport } from '../passport/entity';
 import { Education } from '../education/entity';
 import { EducationModule } from '../education/education.module';
 import { CaslModule } from 'src/casl/casl.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
+    CacheModule.register({}),
     TypeOrmModule.forFeature([User, Contacts, Passport, Education]),
     CaslModule,
     EducationModule,

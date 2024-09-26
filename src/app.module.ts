@@ -11,14 +11,17 @@ import { EducationModule } from './education/education.module';
 import { JwtAuthGuard } from './guards';
 import { FileModule } from './file/file.module';
 
-// https://docs.nestjs.com/techniques/caching
-// https://docs.nestjs.com/techniques/compression
-// https://docs.nestjs.com/techniques/http-module
 // https://docs.nestjs.com/techniques/task-scheduling
+
+// redis, pulumi or terraform, sqs
 
 @Module({
   imports: [
     ConfigModule,
+    // why didn't work?
+    // CacheModule.register({
+    //   isGlobal: true,
+    // }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => configService.db,

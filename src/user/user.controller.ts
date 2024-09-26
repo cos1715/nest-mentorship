@@ -13,8 +13,11 @@ import {
   Request,
   HttpException,
   UseGuards,
+  Inject,
   // UseGuards,
 } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { UserService } from './user.service';
 import { User } from './entity/user.entity';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
@@ -36,16 +39,25 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private caslAbilityFactory: CaslAbilityFactory,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   // @UseGuards(LocalAuthGuard)
   @Get()
-  findAll(@Request() req): Promise<User[]> {
+  async findAll(@Request() req): Promise<User[]> {
     const user = req?.user as User;
     const ability = this.caslAbilityFactory.createForUser(user);
     const access = ability.can(EAction.Read, User);
+
     if (access) {
-      return this.userService.findAll();
+      const cachedData = await this.cacheManager.get<User[]>('findAll');
+      if (cachedData) {
+        return cachedData;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 15000));
+      const data = await this.userService.findAll();
+      await this.cacheManager.set('findAll', data, 10000);
+      return data;
     }
     throw new HttpException('Forbidden', 403);
   }

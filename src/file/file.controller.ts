@@ -27,6 +27,16 @@ export class FileController {
     res.send(csvBuffer);
   }
 
+  @Get('from-server')
+  async getFromServer(@Res() res: Response) {
+    const products = await this.fileService.getFromServer();
+    res.set({
+      'Content-Type': 'application/json',
+      'Content-Disposition': 'attachment; filename=products.json',
+    });
+    res.send(products);
+  }
+
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
@@ -40,8 +50,6 @@ export class FileController {
     )
     file: Express.Multer.File,
   ) {
-    const result = await this.fileService.parseCSV(file.buffer);
-    return result;
-    console.log(file);
+    return this.fileService.parseCSV(file.buffer);
   }
 }
