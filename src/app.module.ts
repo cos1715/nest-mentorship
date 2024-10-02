@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
+import { CacheModule } from '@nestjs/cache-manager';
+import { ScheduleModule } from '@nestjs/schedule';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
@@ -11,17 +13,16 @@ import { EducationModule } from './education/education.module';
 import { JwtAuthGuard } from './guards';
 import { FileModule } from './file/file.module';
 
-// https://docs.nestjs.com/techniques/task-scheduling
-
-// redis, pulumi or terraform, sqs
+// deploy app on azure
 
 @Module({
   imports: [
     ConfigModule,
-    // why didn't work?
-    // CacheModule.register({
-    //   isGlobal: true,
-    // }),
+    ScheduleModule.forRoot(),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 100000,
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => configService.db,

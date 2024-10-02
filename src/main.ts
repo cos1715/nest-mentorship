@@ -7,11 +7,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // why this is not working?
   // app.enableCors({ origin: 'http://localhost:3000' });
-  // how it works?
-  app.use(compression());
+  // ngrok use to create url
+
+  app.use(compression({ threshold: 0 }));
 
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(8000);
 }
 bootstrap();
-// ngrok use to create url

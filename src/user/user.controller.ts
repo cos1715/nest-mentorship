@@ -16,6 +16,7 @@ import {
   Inject,
   // UseGuards,
 } from '@nestjs/common';
+import { Cron, Interval, SchedulerRegistry } from '@nestjs/schedule';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { UserService } from './user.service';
@@ -39,8 +40,23 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private caslAbilityFactory: CaslAbilityFactory,
+    private schedulerRegistry: SchedulerRegistry,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
+
+  @Cron('45 * * * * *', { name: 'notifications' })
+  handleCron() {
+    console.log('Called when the current second is 45');
+  }
+
+  @Interval(180000)
+  handleInterval() {
+    console.log('Called every 180 seconds');
+    const job = this.schedulerRegistry.getCronJob('notifications');
+
+    job.stop();
+    console.log(job.lastDate());
+  }
 
   // @UseGuards(LocalAuthGuard)
   @Get()
@@ -48,15 +64,14 @@ export class UserController {
     const user = req?.user as User;
     const ability = this.caslAbilityFactory.createForUser(user);
     const access = ability.can(EAction.Read, User);
-
     if (access) {
       const cachedData = await this.cacheManager.get<User[]>('findAll');
       if (cachedData) {
         return cachedData;
       }
-      await new Promise((resolve) => setTimeout(resolve, 15000));
+      // await new Promise((resolve) => setTimeout(resolve, 5000));
       const data = await this.userService.findAll();
-      await this.cacheManager.set('findAll', data, 10000);
+      await this.cacheManager.set('findAll', data);
       return data;
     }
     throw new HttpException('Forbidden', 403);
